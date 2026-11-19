@@ -1,0 +1,13 @@
+// Adaptive Retail Intelligence Platform - Prisma schema.
+//
+// Foundation stage: no domain tables yet. Each vertical slice adds its models,
+// migration and constraints together. Do not add placeholder models here.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}

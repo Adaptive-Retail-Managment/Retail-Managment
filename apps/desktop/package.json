@@ -1,0 +1,25 @@
+{
+  "name": "@arp/desktop",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Electron shell for the Adaptive Retail Platform desktop client.",
+  "main": "dist-electron/main/main.js",
+  "scripts": {
+    "dev": "pnpm build:electron && electron . --dev",
+    "start": "pnpm build:electron && electron .",
+    "build": "pnpm build:electron",
+    "build:electron": "esbuild electron/main/main.ts electron/preload/preload.ts --bundle --platform=node --format=cjs --target=node22 --external:electron --outbase=electron --outdir=dist-electron",
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test:unit": "vitest run"
+  },
+  "devDependencies": {
+    "@arp/config": "workspace:*",
+    "@types/node": "22.20.5",
+    "electron": "45.4.1",
+    "esbuild": "0.28.2",
+    "eslint": "9.39.5",
+    "typescript": "5.9.3",
+    "vitest": "4.1.12"
+  }
+}
