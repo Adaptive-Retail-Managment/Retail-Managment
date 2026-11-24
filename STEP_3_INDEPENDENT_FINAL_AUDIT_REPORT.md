@@ -62,18 +62,18 @@ work, any modification of existing files.
 
 ## 3. Repository and deliverable inventory
 
-| Deliverable                                        | Path                                                  | Status                          |
-| -------------------------------------------------- | ----------------------------------------------------- | ------------------------------- |
-| Canonical Prisma schema                            | `apps/api/prisma/schema.prisma`                       | Present; 4,236 lines            |
-| Migrations directory                               | `apps/api/prisma/migrations/`                         | **Absent — by design** (§4.1)   |
-| 12 database documents                              | `docs/database/*.md`                                  | All present                     |
-| Step 3 completion report                           | `STEP_3_DATABASE_DESIGN_AND_SCHEMA_COMPLETION_REPORT.md` | Present; contains F-001       |
-| Step 2 approval report                             | `STEP_2_FINAL_AMENDMENT_AND_APPROVAL_REPORT.md`       | Present                         |
-| Approved numbered requirements (4.1–4.12 source)   | —                                                     | **Absent from repository**      |
-| Binding constraints doc                            | `docs/requirements/master-requirements.md`            | Present; states approved docs were never committed |
-| Module dependency map (21 modules)                 | `docs/architecture/MODULE_DEPENDENCY_MAP.md`          | Present                         |
-| Ownership doc                                      | `docs/database/DATABASE_MODULE_OWNERSHIP.md`          | Present                         |
-| Member review reports                              | —                                                     | **None found**                  |
+| Deliverable                                      | Path                                                     | Status                                             |
+| ------------------------------------------------ | -------------------------------------------------------- | -------------------------------------------------- |
+| Canonical Prisma schema                          | `apps/api/prisma/schema.prisma`                          | Present; 4,236 lines                               |
+| Migrations directory                             | `apps/api/prisma/migrations/`                            | **Absent — by design** (§4.1)                      |
+| 12 database documents                            | `docs/database/*.md`                                     | All present                                        |
+| Step 3 completion report                         | `STEP_3_DATABASE_DESIGN_AND_SCHEMA_COMPLETION_REPORT.md` | Present; contains F-001                            |
+| Step 2 approval report                           | `STEP_2_FINAL_AMENDMENT_AND_APPROVAL_REPORT.md`          | Present                                            |
+| Approved numbered requirements (4.1–4.12 source) | —                                                        | **Absent from repository**                         |
+| Binding constraints doc                          | `docs/requirements/master-requirements.md`               | Present; states approved docs were never committed |
+| Module dependency map (21 modules)               | `docs/architecture/MODULE_DEPENDENCY_MAP.md`             | Present                                            |
+| Ownership doc                                    | `docs/database/DATABASE_MODULE_OWNERSHIP.md`             | Present                                            |
+| Member review reports                            | —                                                        | **None found**                                     |
 
 Git state: exactly **one commit** (`a356aad chore: initialize project foundation`, single author).
 All Step 2/Step 3 documents and the schema changes are **uncommitted** working-tree modifications.
@@ -105,16 +105,16 @@ Commands executed from `apps/api` with a placeholder `DATABASE_URL`
 (`postgresql://postgres:postgres@localhost:5432/adaptive_retail?schema=public`; no database was
 contacted — validation is structural only):
 
-| Command                                        | Result                                                                 |
-| ---------------------------------------------- | ---------------------------------------------------------------------- |
-| `npx prisma validate`                          | **PASS** — "The schema at prisma\schema.prisma is valid"               |
-| `npx prisma format --check`                    | **PASS** — "All files are formatted correctly!"                        |
-| `npx prisma generate`                          | **PASS** — Prisma Client 6.19.3 generated                              |
-| Float/Double search (`grep Float\|Double`)     | **0 occurrences**                                                      |
-| Decimal precision census                       | `Decimal(18,2)` ×60, `Decimal(18,3)` ×60, `Decimal(18,4)` ×16, `Decimal(18,6)` ×3, `Decimal(5,2)` ×8, `Decimal(5,4)` ×2, `Decimal(6,2)` ×2 |
-| Relative Markdown link check (all `docs/`)     | **0 broken links**                                                     |
-| `git log --all --oneline`                      | 1 commit, 1 author                                                     |
-| `git status --short`                           | Step 2/3 deliverables uncommitted                                      |
+| Command                                    | Result                                                                                                                                     |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `npx prisma validate`                      | **PASS** — "The schema at prisma\schema.prisma is valid"                                                                                   |
+| `npx prisma format --check`                | **PASS** — "All files are formatted correctly!"                                                                                            |
+| `npx prisma generate`                      | **PASS** — Prisma Client 6.19.3 generated                                                                                                  |
+| Float/Double search (`grep Float\|Double`) | **0 occurrences**                                                                                                                          |
+| Decimal precision census                   | `Decimal(18,2)` ×60, `Decimal(18,3)` ×60, `Decimal(18,4)` ×16, `Decimal(18,6)` ×3, `Decimal(5,2)` ×8, `Decimal(5,4)` ×2, `Decimal(6,2)` ×2 |
+| Relative Markdown link check (all `docs/`) | **0 broken links**                                                                                                                         |
+| `git log --all --oneline`                  | 1 commit, 1 author                                                                                                                         |
+| `git status --short`                       | Step 2/3 deliverables uncommitted                                                                                                          |
 
 **Limitations:** Prisma validation proves schema syntax and relation integrity only. No
 PostgreSQL instance was used; CHECK constraints, partial indexes and all runtime behavior are
@@ -124,25 +124,25 @@ unverified (they do not yet exist — no migration has been generated, by design
 
 ## 6. Actual schema statistics (measured, authoritative)
 
-| Metric                                            | Documented | **Actual (measured)** |
-| ------------------------------------------------- | ---------- | --------------------- |
-| Models                                            | 159        | **159**               |
-| Enums                                             | 88         | **94**                |
-| Models with `businessId`                          | 140        | **142**               |
-| Models with `branchId`                            | 46         | **52**                |
-| `@@unique([businessId, id])` composite keys       | 138        | **138**               |
-| `@@unique` declarations                           | 245        | **269**               |
-| `@@index` declarations                            | 180        | **186**               |
-| `onDelete: Restrict` relations                    | 250        | **302**               |
-| `onDelete: Cascade` relations                     | 70         | **57**                |
-| `onDelete: SetNull` relations                     | 19         | **8**                 |
-| `Decimal(18,2)` money columns                     | 59         | **60**                |
-| `Decimal(18,3)` quantity columns                  | 59         | **60**                |
-| `Decimal(18,4)` unit-cost columns                 | 15         | **16**                |
-| `Json` columns                                    | 27         | **27**                |
-| Models with no `businessId`                       | —          | **17** (see §9/F-014) |
-| Relations with `businessId` absent from `fields`  | —          | **41** (mostly safe; see §7/F-009 area) |
-| Plain `*UserId` scalar fields without FK           | —          | **44** (F-011)        |
+| Metric                                           | Documented | **Actual (measured)**                   |
+| ------------------------------------------------ | ---------- | --------------------------------------- |
+| Models                                           | 159        | **159**                                 |
+| Enums                                            | 88         | **94**                                  |
+| Models with `businessId`                         | 140        | **142**                                 |
+| Models with `branchId`                           | 46         | **52**                                  |
+| `@@unique([businessId, id])` composite keys      | 138        | **138**                                 |
+| `@@unique` declarations                          | 245        | **269**                                 |
+| `@@index` declarations                           | 180        | **186**                                 |
+| `onDelete: Restrict` relations                   | 250        | **302**                                 |
+| `onDelete: Cascade` relations                    | 70         | **57**                                  |
+| `onDelete: SetNull` relations                    | 19         | **8**                                   |
+| `Decimal(18,2)` money columns                    | 59         | **60**                                  |
+| `Decimal(18,3)` quantity columns                 | 59         | **60**                                  |
+| `Decimal(18,4)` unit-cost columns                | 15         | **16**                                  |
+| `Json` columns                                   | 27         | **27**                                  |
+| Models with no `businessId`                      | —          | **17** (see §9/F-014)                   |
+| Relations with `businessId` absent from `fields` | —          | **41** (mostly safe; see §7/F-009 area) |
+| Plain `*UserId` scalar fields without FK         | —          | **44** (F-011)                          |
 
 The documented counts in `DATABASE_VALIDATION_AND_TESTING.md` §2 and `PRISMA_SCHEMA_GUIDE.md` §2
 are stale relative to the final schema — the schema was evidently amended after those counts were
@@ -164,13 +164,13 @@ recorded. See **F-002**.
   parent in another business** even if application code errs. Verified examples:
   `Sale → Branch`, `SaleLine → Sale(businessId,branchId,saleId)`, `ProductVariant → Product`,
   `PurchaseOrder → Supplier`, `GoodsReceipt → PurchaseOrder`, `PaymentAllocation →
-  SupplierPayment/SupplierInvoice` (both keyed `[businessId, supplierId, id]`, which also forces
+SupplierPayment/SupplierInvoice` (both keyed `[businessId, supplierId, id]`, which also forces
   payment and invoice to share the supplier), `Refund → Sale/ReturnRequest`, `RefundAllocation →
-  Refund/SalePayment` (both carry `saleId`, forcing refund and payment onto the same sale),
+Refund/SalePayment` (both carry `saleId`, forcing refund and payment onto the same sale),
   `ReturnLine → ReturnRequest/SaleLine` (composites carry `saleId`, forcing the return, the
   request and the original sale line onto one sale), `Exchange → ReturnRequest` (same `saleId`
   composite), `AuditEvent → Branch/Membership`, `ReconciliationException → SyncOperation/
-  Membership/StocktakeSession/Sale`, `Business.ownerMembership → Membership(businessId,id)`
+Membership/StocktakeSession/Sale`, `Business.ownerMembership → Membership(businessId,id)`
   (one official owner structurally bound to the business), `TransferReceipt → StockTransfer`
   via `(businessId, transferId, branchId) → (businessId, id, toBranchId)` which forces the
   receipt's branch to be the transfer **destination**.
@@ -201,11 +201,11 @@ Ten models have nullable `businessId`: `Role`, `Unit`, `FileObject`, `FileLink`,
 
 41 relations reference parents without `businessId` in `fields`. Classification:
 
-| Class | Relations | Assessment |
-| ----- | --------- | ---------- |
-| Safe global parents | `User`, `Plan`, `Permission`, `ForecastModel` references (sessions, tokens, credentials, plan links, role permissions, forecast model/metric links, support-case user links, notification recipient/preference, device enrolment) | **Safe** — parents are platform-global |
-| Documented nullable-tenant exceptions | `Membership.role`, `Invitation.role`, `Membership.scopedRole`, `Invitation.scopedRole` (Role); `Product.unit`, `ProductVariant.unit`, `AttributeDefinition.unit`, `Unit.baseUnit`, `UnitConversion.fromUnit/toUnit` (Unit); `FileLink.file`, `FileUploadSession.file` (FileObject); `PaymentWebhookEvent.attempt` | **Application-enforced** — explicitly listed in tenancy doc §3.1/TEN-16..19; each requires a service-layer scope check and a cross-tenant test |
-| Tenant-derived children without `businessId` | `EmploymentStatusHistory.employeeId → Employee.id`, `SyncAttempt.syncOperationId → SyncOperation.id`, `SyncCursor.deviceId → Device.id`, `ForecastPoint.forecastRunId → ForecastRun.id` | **Unresolved-by-design** — the child row carries no tenant column; tenant filtering requires a join through the parent. Catalog labels these "Platform" scope. See F-014 |
+| Class                                        | Relations                                                                                                                                                                                                                                                                                                         | Assessment                                                                                                                                                               |
+| -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Safe global parents                          | `User`, `Plan`, `Permission`, `ForecastModel` references (sessions, tokens, credentials, plan links, role permissions, forecast model/metric links, support-case user links, notification recipient/preference, device enrolment)                                                                                 | **Safe** — parents are platform-global                                                                                                                                   |
+| Documented nullable-tenant exceptions        | `Membership.role`, `Invitation.role`, `Membership.scopedRole`, `Invitation.scopedRole` (Role); `Product.unit`, `ProductVariant.unit`, `AttributeDefinition.unit`, `Unit.baseUnit`, `UnitConversion.fromUnit/toUnit` (Unit); `FileLink.file`, `FileUploadSession.file` (FileObject); `PaymentWebhookEvent.attempt` | **Application-enforced** — explicitly listed in tenancy doc §3.1/TEN-16..19; each requires a service-layer scope check and a cross-tenant test                           |
+| Tenant-derived children without `businessId` | `EmploymentStatusHistory.employeeId → Employee.id`, `SyncAttempt.syncOperationId → SyncOperation.id`, `SyncCursor.deviceId → Device.id`, `ForecastPoint.forecastRunId → ForecastRun.id`                                                                                                                           | **Unresolved-by-design** — the child row carries no tenant column; tenant filtering requires a join through the parent. Catalog labels these "Platform" scope. See F-014 |
 
 The tenancy document claims "nineteen" residual id-only relations; the measured set is
 consistent with that count depending on whether the nullable `scopedRole` composites are counted
@@ -248,23 +248,23 @@ service-layer rules; none blocks baseline migration if explicitly accepted. See 
 
 ## 8. Inventory integrity audit
 
-| Requirement | Evidence | Status |
-| ----------- | -------- | ------ |
-| One authoritative stock balance | `StockBalance @@unique([branchId, variantId])`; doc §1 of integrity doc states it is the only live balance | **Design PASS** (runtime unverified — no DB) |
-| Complete movement history | `StockMovement` append-only by policy; `quantityDelta` signed; `sourceKey` unique per business (`@@unique([businessId, sourceKey])`) | **Design PASS**; append-only enforcement deferred to privileges/triggers — honestly documented |
-| Batch validity | `InventoryBatch` unique `(branchId, variantId, batchNumber)`; `StockMovement.batch`, `StocktakeLine.batch`, `SaleLine.batch`, `TransferReceiptLine.batch`, `StockLossRecord.batch`, `ExpiryRiskFact.batch` all use the 4-column composite `(businessId, branchId, variantId, batchId)` — batch must match branch **and** variant | **Design PASS** |
-| Batch↔receipt-line consistency | `InventoryBatch.receiptLine` uses `(businessId, branchId, variantId, receiptLineId)` composite | **Design PASS** |
-| Movement↔batch allocation | `BatchMovementAllocation` composite to both `StockMovement` and `InventoryBatch` on the full tenant+branch+variant key | **Design PASS**; sum-of-allocations = movement quantity is app-level |
-| Goods receipt → stock | Only `GoodsReceiptLine` links to `InventoryBatch`/`StockMovement` via `referenceType/referenceId`; `PurchaseOrder`, `SupplierConfirmation` have no stock relation | **Design PASS** |
-| GR line ↔ PO line | `GoodsReceiptLine.purchaseOrderLine` uses 4-column composite incl. `variantId` — variant match enforced; over/under receipt quantities are app-level | **Design PASS** (see F-005 for missing line uniqueness) |
-| Transfer validity | `StockTransfer.fromBranch`/`toBranch` both composite to `Branch(businessId,id)` (same business); `TransferReceipt` forced to `toBranchId`; `TransferReceiptLine.transferLine` uses `(businessId, transferId, transferLineId, variantId)` composite | **Design PASS**; `fromBranchId ≠ toBranchId` is app-level |
-| In-transit not sellable | `StockBalance.quantityInTransit` separate column; `StockLocationType.IN_TRANSIT`; documented rule that in-transit never enters `quantityOnHand` until accepted | **Design PASS** (app logic pending) |
-| Negative stock | Planned CHECK constraints (`stock_balance_*`, reserved ≤ on-hand) in migration strategy §2.1; **not yet in any migration** — correctly disclosed everywhere | **NOT YET ENFORCEABLE — by design; must ship with baseline migration** |
-| Reserved ≤ on-hand | Same planned CHECK | Same status |
-| Stocktake history | `StocktakeSession`/`StocktakeLine` preserve counts, variances, counters; `InventoryAdjustment` has approve/apply workflow with `reconciliationExceptionId` link | **Design PASS**; F-003 NULL-unique loophole on `StocktakeLine` |
-| Loss/damage evidence | `StockLossRecord` with type, reason, requester/approver, optional `movementId` 1:1 link | **Design PASS** |
-| FIFO vs WAC distinct | `InventoryBatch` (FIFO physical) vs `InventoryValuationSnapshot.method` (WAC financial); documented as separate | **Design PASS** |
-| Atomicity | Documented transaction/locking requirements (SELECT FOR UPDATE, deterministic lock order, conditional UPDATE) — correctly labeled Step 4+ work | **NOT IMPLEMENTED — correctly disclosed** |
+| Requirement                     | Evidence                                                                                                                                                                                                                                                                                                                         | Status                                                                                         |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| One authoritative stock balance | `StockBalance @@unique([branchId, variantId])`; doc §1 of integrity doc states it is the only live balance                                                                                                                                                                                                                       | **Design PASS** (runtime unverified — no DB)                                                   |
+| Complete movement history       | `StockMovement` append-only by policy; `quantityDelta` signed; `sourceKey` unique per business (`@@unique([businessId, sourceKey])`)                                                                                                                                                                                             | **Design PASS**; append-only enforcement deferred to privileges/triggers — honestly documented |
+| Batch validity                  | `InventoryBatch` unique `(branchId, variantId, batchNumber)`; `StockMovement.batch`, `StocktakeLine.batch`, `SaleLine.batch`, `TransferReceiptLine.batch`, `StockLossRecord.batch`, `ExpiryRiskFact.batch` all use the 4-column composite `(businessId, branchId, variantId, batchId)` — batch must match branch **and** variant | **Design PASS**                                                                                |
+| Batch↔receipt-line consistency  | `InventoryBatch.receiptLine` uses `(businessId, branchId, variantId, receiptLineId)` composite                                                                                                                                                                                                                                   | **Design PASS**                                                                                |
+| Movement↔batch allocation       | `BatchMovementAllocation` composite to both `StockMovement` and `InventoryBatch` on the full tenant+branch+variant key                                                                                                                                                                                                           | **Design PASS**; sum-of-allocations = movement quantity is app-level                           |
+| Goods receipt → stock           | Only `GoodsReceiptLine` links to `InventoryBatch`/`StockMovement` via `referenceType/referenceId`; `PurchaseOrder`, `SupplierConfirmation` have no stock relation                                                                                                                                                                | **Design PASS**                                                                                |
+| GR line ↔ PO line               | `GoodsReceiptLine.purchaseOrderLine` uses 4-column composite incl. `variantId` — variant match enforced; over/under receipt quantities are app-level                                                                                                                                                                             | **Design PASS** (see F-005 for missing line uniqueness)                                        |
+| Transfer validity               | `StockTransfer.fromBranch`/`toBranch` both composite to `Branch(businessId,id)` (same business); `TransferReceipt` forced to `toBranchId`; `TransferReceiptLine.transferLine` uses `(businessId, transferId, transferLineId, variantId)` composite                                                                               | **Design PASS**; `fromBranchId ≠ toBranchId` is app-level                                      |
+| In-transit not sellable         | `StockBalance.quantityInTransit` separate column; `StockLocationType.IN_TRANSIT`; documented rule that in-transit never enters `quantityOnHand` until accepted                                                                                                                                                                   | **Design PASS** (app logic pending)                                                            |
+| Negative stock                  | Planned CHECK constraints (`stock_balance_*`, reserved ≤ on-hand) in migration strategy §2.1; **not yet in any migration** — correctly disclosed everywhere                                                                                                                                                                      | **NOT YET ENFORCEABLE — by design; must ship with baseline migration**                         |
+| Reserved ≤ on-hand              | Same planned CHECK                                                                                                                                                                                                                                                                                                               | Same status                                                                                    |
+| Stocktake history               | `StocktakeSession`/`StocktakeLine` preserve counts, variances, counters; `InventoryAdjustment` has approve/apply workflow with `reconciliationExceptionId` link                                                                                                                                                                  | **Design PASS**; F-003 NULL-unique loophole on `StocktakeLine`                                 |
+| Loss/damage evidence            | `StockLossRecord` with type, reason, requester/approver, optional `movementId` 1:1 link                                                                                                                                                                                                                                          | **Design PASS**                                                                                |
+| FIFO vs WAC distinct            | `InventoryBatch` (FIFO physical) vs `InventoryValuationSnapshot.method` (WAC financial); documented as separate                                                                                                                                                                                                                  | **Design PASS**                                                                                |
+| Atomicity                       | Documented transaction/locking requirements (SELECT FOR UPDATE, deterministic lock order, conditional UPDATE) — correctly labeled Step 4+ work                                                                                                                                                                                   | **NOT IMPLEMENTED — correctly disclosed**                                                      |
 
 **Net:** the inventory model is the strongest area of the schema. The only schema-level gaps are
 the `StocktakeLine` NULL-unique loophole (F-003) and the missing receipt-line uniqueness (F-005);
@@ -274,22 +274,22 @@ both are correctable in the baseline migration's companion SQL or a follow-up mi
 
 ## 9. Sales and financial integrity audit
 
-| Requirement | Evidence | Status |
-| ----------- | -------- | ------ |
-| Sale history immutable | `Sale`, `SaleLine`, `SalePayment` Restrict-deleted only; `SaleVoid` separate 1:1 record; status transitions not deletes | **Design PASS** |
-| Price/cost snapshots | `SaleLine.productNameSnapshot`, `skuSnapshot`, `unitPrice`, `unitCostSnapshot`, `batchId` | **Design PASS** |
-| Return→original sale line | `ReturnLine` composite `(businessId, saleId, returnId)` + `(businessId, saleId, saleLineId)` — return request, return line and original sale line provably share one sale | **Design PASS** |
-| Refund→correct sale/payment | `Refund` composite to `Sale` and `ReturnRequest` (both carry `saleId`); `RefundAllocation` composites carry `saleId` on both refund and payment sides — allocation cannot cross sales | **Design PASS** |
-| Duplicate refunds | `Refund @@unique([businessId, number])`, `@@unique([businessId, idempotencyKey])` | **Design PASS** (idempotencyKey nullable → intentional) |
-| Refund ceiling | Documented app rule; no DB constraint possible cross-row — honestly disclosed | **App-enforced** |
-| Return quantity ceiling | `ReturnLine.quantityRequested/Approved/restockQuantity` + planned CHECKs; cumulative-vs-sold is app-level | **App-enforced** |
-| Supplier payment↔invoice | `PaymentAllocation` both sides composite `[businessId, supplierId, …]` — cross-supplier and cross-tenant allocation impossible | **Design PASS** |
-| PO↔invoice consistency | `SupplierInvoice.purchaseOrder` composite `[businessId, supplierId, purchaseOrderId]` forces invoice supplier = PO supplier; **but** `SupplierInvoiceLine.purchaseOrderLine` references `(businessId, purchaseOrderId, id)` without supplier/variant binding — a line can reference a PO line of a different variant or even a different PO than the invoice header (same business). See F-017 | **Partial — finding** |
-| Historical supplier prices | `SupplierPriceHistory`, `SupplierPricingAgreement`+lines, `PurchaseOrderRevision.snapshot` | **Design PASS** |
-| Financial deletes | All financial roots Restrict from `Business`; line Cascades only from headers that themselves Restrict | **Design PASS** |
-| Money types | All money `Decimal(18,2)` + explicit `currency` per record; no Float/Double; quantities `Decimal(18,3)`; unit costs `Decimal(18,4)` | **PASS (verified by census)** |
-| Currency snapshots | `currency` stored per monetary row incl. `Sale`, `SaleLine` inherits via sale (no per-line currency — acceptable since a sale is single-currency by construction; `SalePayment.currency` exists for split-tender edge cases) | **Design PASS** |
-| Idempotency | `IdempotencyRecord @@unique([businessId, scope, key])`; `SyncOperation @@unique([businessId, deviceId, operationId])`; `Sale @@unique([businessId, offlineDeviceId, operationId])`; `StockMovement @@unique([businessId, sourceKey])`; `PaymentWebhookEvent @@unique([provider, providerEventId])`; `Refund @@unique([businessId, idempotencyKey])` | **Design PASS**; see F-003/F-004 for nullable-tenant caveats |
+| Requirement                 | Evidence                                                                                                                                                                                                                                                                                                                                                                                       | Status                                                       |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| Sale history immutable      | `Sale`, `SaleLine`, `SalePayment` Restrict-deleted only; `SaleVoid` separate 1:1 record; status transitions not deletes                                                                                                                                                                                                                                                                        | **Design PASS**                                              |
+| Price/cost snapshots        | `SaleLine.productNameSnapshot`, `skuSnapshot`, `unitPrice`, `unitCostSnapshot`, `batchId`                                                                                                                                                                                                                                                                                                      | **Design PASS**                                              |
+| Return→original sale line   | `ReturnLine` composite `(businessId, saleId, returnId)` + `(businessId, saleId, saleLineId)` — return request, return line and original sale line provably share one sale                                                                                                                                                                                                                      | **Design PASS**                                              |
+| Refund→correct sale/payment | `Refund` composite to `Sale` and `ReturnRequest` (both carry `saleId`); `RefundAllocation` composites carry `saleId` on both refund and payment sides — allocation cannot cross sales                                                                                                                                                                                                          | **Design PASS**                                              |
+| Duplicate refunds           | `Refund @@unique([businessId, number])`, `@@unique([businessId, idempotencyKey])`                                                                                                                                                                                                                                                                                                              | **Design PASS** (idempotencyKey nullable → intentional)      |
+| Refund ceiling              | Documented app rule; no DB constraint possible cross-row — honestly disclosed                                                                                                                                                                                                                                                                                                                  | **App-enforced**                                             |
+| Return quantity ceiling     | `ReturnLine.quantityRequested/Approved/restockQuantity` + planned CHECKs; cumulative-vs-sold is app-level                                                                                                                                                                                                                                                                                      | **App-enforced**                                             |
+| Supplier payment↔invoice    | `PaymentAllocation` both sides composite `[businessId, supplierId, …]` — cross-supplier and cross-tenant allocation impossible                                                                                                                                                                                                                                                                 | **Design PASS**                                              |
+| PO↔invoice consistency      | `SupplierInvoice.purchaseOrder` composite `[businessId, supplierId, purchaseOrderId]` forces invoice supplier = PO supplier; **but** `SupplierInvoiceLine.purchaseOrderLine` references `(businessId, purchaseOrderId, id)` without supplier/variant binding — a line can reference a PO line of a different variant or even a different PO than the invoice header (same business). See F-017 | **Partial — finding**                                        |
+| Historical supplier prices  | `SupplierPriceHistory`, `SupplierPricingAgreement`+lines, `PurchaseOrderRevision.snapshot`                                                                                                                                                                                                                                                                                                     | **Design PASS**                                              |
+| Financial deletes           | All financial roots Restrict from `Business`; line Cascades only from headers that themselves Restrict                                                                                                                                                                                                                                                                                         | **Design PASS**                                              |
+| Money types                 | All money `Decimal(18,2)` + explicit `currency` per record; no Float/Double; quantities `Decimal(18,3)`; unit costs `Decimal(18,4)`                                                                                                                                                                                                                                                            | **PASS (verified by census)**                                |
+| Currency snapshots          | `currency` stored per monetary row incl. `Sale`, `SaleLine` inherits via sale (no per-line currency — acceptable since a sale is single-currency by construction; `SalePayment.currency` exists for split-tender edge cases)                                                                                                                                                                   | **Design PASS**                                              |
+| Idempotency                 | `IdempotencyRecord @@unique([businessId, scope, key])`; `SyncOperation @@unique([businessId, deviceId, operationId])`; `Sale @@unique([businessId, offlineDeviceId, operationId])`; `StockMovement @@unique([businessId, sourceKey])`; `PaymentWebhookEvent @@unique([provider, providerEventId])`; `Refund @@unique([businessId, idempotencyKey])`                                            | **Design PASS**; see F-003/F-004 for nullable-tenant caveats |
 
 ---
 
@@ -301,24 +301,24 @@ is refused — no sale, no stock movement — the original payload is preserved 
 `ReconciliationException`, resolution requires Owner/Manager (never Business Admin for physical
 outcomes), and exactly one audited revalidation may occur after authorized stock correction.
 
-| D-025 element | Schema/doc evidence | Status |
-| ------------ | ------------------- | ------ |
-| No partial acceptance | `SyncOperationStatus` has no partial state; no partial-acceptance fields exist on `Sale`/`SaleLine`; `ReconciliationShortfallLine` stores per-variant shortfall for the **whole** operation | **Schema consistent** |
-| No sale on failure | `SyncOperation.saleId` nullable; `ReconciliationException` 1:1 with operation; `committedSaleId` only set on successful revalidation | **Design PASS** |
-| No movement on failure | Movements are only written inside the commit transaction (documented §4 of integrity doc) | **Design PASS (app-level)** |
-| Original payload preserved | `ReconciliationException.originalPayload Json` + `payloadHash` + `recordedTotal` + `currency` + `occurredAt`/`receivedAt`; doc states immutability | **Design PASS** |
-| Shortfall quantities preserved | `ReconciliationShortfallLine(requestedQuantity, availableQuantity, shortfallQuantity, unitPrice)` | **Design PASS** |
-| Device/business ownership | `ReconciliationException` composite FKs to `Device`, `Branch`, `SyncOperation`, both membership roles | **Design PASS** |
-| Idempotent operations | `(businessId, deviceId, operationId)` unique on `SyncOperation`; `(businessId, saleId)` unique prevents double-linking; `SyncOperation → Sale` 0..1 | **Design PASS** |
-| Duplicate retries | `SyncAttempt @@unique([syncOperationId, attemptNumber])`; `DUPLICATE` status; doc test OFF-03 | **Design PASS** |
-| Manager/Owner only; Admin view-only | `ReconciliationException.assignedToMembershipId/cashierMembershipId` composite to `Membership`; `Permission.isPhysical` flag; resolution authority is service-enforced (documented) | **App-enforced — correctly disclosed** |
-| One audited revalidation | `revalidationCount Int` + **planned** `CHECK (revalidationCount BETWEEN 0 AND 1)` in migration SQL; `ReconciliationEventType` includes `REVALIDATION_PASSED/FAILED`; append-only `ReconciliationEvent` | **Design PASS; CHECK pending migration** |
-| History never overwritten | All reconciliation tables Restrict; events append-only | **Design PASS** |
+| D-025 element                       | Schema/doc evidence                                                                                                                                                                                    | Status                                   |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------- |
+| No partial acceptance               | `SyncOperationStatus` has no partial state; no partial-acceptance fields exist on `Sale`/`SaleLine`; `ReconciliationShortfallLine` stores per-variant shortfall for the **whole** operation            | **Schema consistent**                    |
+| No sale on failure                  | `SyncOperation.saleId` nullable; `ReconciliationException` 1:1 with operation; `committedSaleId` only set on successful revalidation                                                                   | **Design PASS**                          |
+| No movement on failure              | Movements are only written inside the commit transaction (documented §4 of integrity doc)                                                                                                              | **Design PASS (app-level)**              |
+| Original payload preserved          | `ReconciliationException.originalPayload Json` + `payloadHash` + `recordedTotal` + `currency` + `occurredAt`/`receivedAt`; doc states immutability                                                     | **Design PASS**                          |
+| Shortfall quantities preserved      | `ReconciliationShortfallLine(requestedQuantity, availableQuantity, shortfallQuantity, unitPrice)`                                                                                                      | **Design PASS**                          |
+| Device/business ownership           | `ReconciliationException` composite FKs to `Device`, `Branch`, `SyncOperation`, both membership roles                                                                                                  | **Design PASS**                          |
+| Idempotent operations               | `(businessId, deviceId, operationId)` unique on `SyncOperation`; `(businessId, saleId)` unique prevents double-linking; `SyncOperation → Sale` 0..1                                                    | **Design PASS**                          |
+| Duplicate retries                   | `SyncAttempt @@unique([syncOperationId, attemptNumber])`; `DUPLICATE` status; doc test OFF-03                                                                                                          | **Design PASS**                          |
+| Manager/Owner only; Admin view-only | `ReconciliationException.assignedToMembershipId/cashierMembershipId` composite to `Membership`; `Permission.isPhysical` flag; resolution authority is service-enforced (documented)                    | **App-enforced — correctly disclosed**   |
+| One audited revalidation            | `revalidationCount Int` + **planned** `CHECK (revalidationCount BETWEEN 0 AND 1)` in migration SQL; `ReconciliationEventType` includes `REVALIDATION_PASSED/FAILED`; append-only `ReconciliationEvent` | **Design PASS; CHECK pending migration** |
+| History never overwritten           | All reconciliation tables Restrict; events append-only                                                                                                                                                 | **Design PASS**                          |
 
 **Contradiction search result:** `STEP_3_DATABASE_DESIGN_AND_SCHEMA_COMPLETION_REPORT.md`
-§H.2 states *"The accepted portion is committed if the policy allows partial fulfilment;
-otherwise the operation is rejected into reconciliation"* and §K.1 lists *"Partial fulfilment
-policy for offline shortfalls … must be confirmed"* as an open question. This **contradicts the
+§H.2 states _"The accepted portion is committed if the policy allows partial fulfilment;
+otherwise the operation is rejected into reconciliation"_ and §K.1 lists _"Partial fulfilment
+policy for offline shortfalls … must be confirmed"_ as an open question. This **contradicts the
 approved D-025**, which permits no partial acceptance. The schema and
 `OFFLINE_AND_RECONCILIATION_DATA_MODEL.md` are internally strict and correct; the defect is
 confined to the completion report but it misrepresents an approved critical decision. See
@@ -359,12 +359,12 @@ confined to the completion report but it misrepresents an approved critical deci
 
 ## 12. Four-business-type coverage
 
-| Type | Representation |
-| ---- | -------------- |
-| Grocery & Food | `Unit`/`UnitConversion` (weight/volume/count), `InventoryBatch.expiryDate`, `isPerishable`/`shelfLifeDays` on `Product`, `MinStockSetting`, `StockLossRecord` (damage/expiry) |
-| Fashion & Clothing | `ProductVariant.size`, `color`, `AttributeDefinition`/`ProductAttributeValue` for arbitrary axes, variant-level SKU/price/stock |
+| Type                | Representation                                                                                                                                                                                                                |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Grocery & Food      | `Unit`/`UnitConversion` (weight/volume/count), `InventoryBatch.expiryDate`, `isPerishable`/`shelfLifeDays` on `Product`, `MinStockSetting`, `StockLossRecord` (damage/expiry)                                                 |
+| Fashion & Clothing  | `ProductVariant.size`, `color`, `AttributeDefinition`/`ProductAttributeValue` for arbitrary axes, variant-level SKU/price/stock                                                                                               |
 | Pharmacy & Medicine | `InventoryBatch` batch number/expiry/`QUARANTINED` status, `StockLocationType.QUARANTINE`, `LossType`, `isPerishable`; "mandatory where config enables" is a `CapabilityFlag`/configuration concern — representation adequate |
-| Cosmetics & Beauty | `ProductVariant.shade`, `color`, `size`, `AttributeDefinition` options, batch/expiry where applicable |
+| Cosmetics & Beauty  | `ProductVariant.shade`, `color`, `size`, `AttributeDefinition` options, batch/expiry where applicable                                                                                                                         |
 
 One shared product/variant model with configurable attributes — matches the approved "no
 separate applications" constraint. **Design PASS**; no industry workflow is claimed as
@@ -401,16 +401,16 @@ implemented (correctly).
   - `PaymentAttempt @@unique([provider, providerReference])` — `providerReference` nullable;
     duplicate NULLs allowed (probably benign: reference assigned post-payment).
   - `Notification @@unique([businessId, dedupeKey])`, `Refund @@unique([businessId,
-    idempotencyKey])`, `Sale @@unique([businessId, offlineDeviceId, operationId])`,
+idempotencyKey])`, `Sale @@unique([businessId, offlineDeviceId, operationId])`,
     `SyncOperation @@unique([businessId, saleId])`, `ReconciliationException @@unique([businessId,
-    committedSaleId])`, `StockLossRecord @@unique([businessId, movementId])`, `Customer
-    @@unique([businessId, code])` — nullable members; duplicates-with-NULL are either intended
+committedSaleId])`, `StockLossRecord @@unique([businessId, movementId])`, `Customer
+@@unique([businessId, code])` — nullable members; duplicates-with-NULL are either intended
     (optional keys) or low-risk; reviewed and classified.
   - `Role @@unique([businessId, code])`, `Unit @@unique([businessId, code])` — NULL-tenant
     duplicates **already covered** by planned partial unique indexes in migration SQL (good
     catch by the authors).
 - **Missing uniqueness (F-005):** `GoodsReceiptLine` has no `@@unique([receiptId,
-  purchaseOrderLineId])` — two lines in one receipt can reference the same PO line;
+purchaseOrderLineId])` — two lines in one receipt can reference the same PO line;
   `SupplierInvoiceLine` similarly lacks `(supplierInvoiceId, purchaseOrderLineId)` uniqueness;
   `SupplierInvoiceLine.purchaseOrderLine` composite omits `variantId`/`supplierId` binding
   (F-017; see §9). `PurchaseRequestLine`, `RfqLine`, `QuotationLine`, `ExchangeLine` also lack
@@ -428,20 +428,20 @@ implemented (correctly).
 
 ## 14. Documentation accuracy audit
 
-| Document | Verdict |
-| -------- | ------- |
-| `DATABASE_REQUIREMENTS_AND_ENTITY_CATALOG.md` | Complete; 159-model inventory matches schema; traceability table uses 4.1–4.12 labels whose authoritative source is absent (F-016); `EmploymentStatusHistory` labeled "Platform" scope (F-012) |
-| `CONCEPTUAL_DATA_MODEL.md` | Sound; Mermaid diagrams consistent with schema at relationship level |
-| `LOGICAL_DATABASE_DESIGN.md` | Mostly accurate; §2.4 idempotency keys stale (`IdempotencyRecord @@unique([scope,key])` → actual `[businessId,scope,key]`; `SyncOperation @@unique([deviceId,operationId])` → actual `[businessId,deviceId,operationId]`; `Sale @@unique([offlineDeviceId,operationId])` → actual `[businessId,offlineDeviceId,operationId]`) — F-002 family |
-| `ENTITY_RELATIONSHIP_DIAGRAM.md` | Relationship structure accurate; **field-block errors**: `PriceList.code` (actual `name`), `SupplierConfirmation.status` (no such field), `GoodsReceiptLine.quantityDamaged` (actual `damagedQuantity`), `InventoryValuationSnapshot.quantityOnHand/inventoryValue` (actual `quantity`/`totalValue`) — F-006 |
-| `MULTI_TENANT_DATABASE_DESIGN.md` | Strong; §2's "five tables" null-tenant claim is incomplete (F-004); §3.1 exception table accurate for what it lists |
-| `INVENTORY_AND_FINANCIAL_DATA_INTEGRITY.md` | Accurate; honestly separates DB constraints from transaction logic; test specs labeled as specs |
-| `OFFLINE_AND_RECONCILIATION_DATA_MODEL.md` | Accurate and strict on D-025; minor: Mermaid shows `correctiveAdjustmentId` (schema has `correctiveStocktakeId` + adjustment link via `InventoryAdjustment.reconciliationExceptionId`); idempotency table omits `businessId` from unique keys (same staleness as F-002); lifecycle diagram shows `CONFLICTED → REJECTED` for non-fulfilment while exception status is `NOT_FULFILLED` — cosmetic |
-| `DATABASE_INDEXING_AND_PERFORMANCE.md` | Index groups reasonable; several constraint descriptions stale (`BranchPriceOverride @@unique([branchId,variantId])` → actual includes `effectiveFrom`; `SalePayment` described indexes don't match actual `(businessId,saleId)`/`(businessId,reference)`; `PlanPrice(planId,billingCycle)` → actual includes `currency`; `SyncOperation` unique omits `businessId`); counts stale — F-002/F-016 |
-| `PRISMA_SCHEMA_GUIDE.md` | Conventions accurate; §2 inventory counts stale (88 enums etc.); §7 idempotency table stale as above; §4 decimal counts stale (59/59/15 → 60/60/16) — F-002 |
-| `DATABASE_MIGRATION_AND_SEED_STRATEGY.md` | Excellent; companion SQL complete and honest about what Prisma can't express; correctly states nothing is applied |
-| `DATABASE_MODULE_OWNERSHIP.md` | 21 modules, 4 owners, table counts sum correctly (33+23+49+54=159); hotspot review table sensible; **no member review evidence exists** (F-008) |
-| `DATABASE_VALIDATION_AND_TESTING.md` | Honest L1–L7 layering; executed-checks table contains the stale counts (F-002); L3–L7 correctly marked not executed |
+| Document                                      | Verdict                                                                                                                                                                                                                                                                                                                                                                                          |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `DATABASE_REQUIREMENTS_AND_ENTITY_CATALOG.md` | Complete; 159-model inventory matches schema; traceability table uses 4.1–4.12 labels whose authoritative source is absent (F-016); `EmploymentStatusHistory` labeled "Platform" scope (F-012)                                                                                                                                                                                                   |
+| `CONCEPTUAL_DATA_MODEL.md`                    | Sound; Mermaid diagrams consistent with schema at relationship level                                                                                                                                                                                                                                                                                                                             |
+| `LOGICAL_DATABASE_DESIGN.md`                  | Mostly accurate; §2.4 idempotency keys stale (`IdempotencyRecord @@unique([scope,key])` → actual `[businessId,scope,key]`; `SyncOperation @@unique([deviceId,operationId])` → actual `[businessId,deviceId,operationId]`; `Sale @@unique([offlineDeviceId,operationId])` → actual `[businessId,offlineDeviceId,operationId]`) — F-002 family                                                     |
+| `ENTITY_RELATIONSHIP_DIAGRAM.md`              | Relationship structure accurate; **field-block errors**: `PriceList.code` (actual `name`), `SupplierConfirmation.status` (no such field), `GoodsReceiptLine.quantityDamaged` (actual `damagedQuantity`), `InventoryValuationSnapshot.quantityOnHand/inventoryValue` (actual `quantity`/`totalValue`) — F-006                                                                                     |
+| `MULTI_TENANT_DATABASE_DESIGN.md`             | Strong; §2's "five tables" null-tenant claim is incomplete (F-004); §3.1 exception table accurate for what it lists                                                                                                                                                                                                                                                                              |
+| `INVENTORY_AND_FINANCIAL_DATA_INTEGRITY.md`   | Accurate; honestly separates DB constraints from transaction logic; test specs labeled as specs                                                                                                                                                                                                                                                                                                  |
+| `OFFLINE_AND_RECONCILIATION_DATA_MODEL.md`    | Accurate and strict on D-025; minor: Mermaid shows `correctiveAdjustmentId` (schema has `correctiveStocktakeId` + adjustment link via `InventoryAdjustment.reconciliationExceptionId`); idempotency table omits `businessId` from unique keys (same staleness as F-002); lifecycle diagram shows `CONFLICTED → REJECTED` for non-fulfilment while exception status is `NOT_FULFILLED` — cosmetic |
+| `DATABASE_INDEXING_AND_PERFORMANCE.md`        | Index groups reasonable; several constraint descriptions stale (`BranchPriceOverride @@unique([branchId,variantId])` → actual includes `effectiveFrom`; `SalePayment` described indexes don't match actual `(businessId,saleId)`/`(businessId,reference)`; `PlanPrice(planId,billingCycle)` → actual includes `currency`; `SyncOperation` unique omits `businessId`); counts stale — F-002/F-016 |
+| `PRISMA_SCHEMA_GUIDE.md`                      | Conventions accurate; §2 inventory counts stale (88 enums etc.); §7 idempotency table stale as above; §4 decimal counts stale (59/59/15 → 60/60/16) — F-002                                                                                                                                                                                                                                      |
+| `DATABASE_MIGRATION_AND_SEED_STRATEGY.md`     | Excellent; companion SQL complete and honest about what Prisma can't express; correctly states nothing is applied                                                                                                                                                                                                                                                                                |
+| `DATABASE_MODULE_OWNERSHIP.md`                | 21 modules, 4 owners, table counts sum correctly (33+23+49+54=159); hotspot review table sensible; **no member review evidence exists** (F-008)                                                                                                                                                                                                                                                  |
+| `DATABASE_VALIDATION_AND_TESTING.md`          | Honest L1–L7 layering; executed-checks table contains the stale counts (F-002); L3–L7 correctly marked not executed                                                                                                                                                                                                                                                                              |
 
 Cross-document consistency: good overall; the recurring defect class is **stale counts and
 stale unique-key descriptions** after late schema edits (F-002, F-016).
@@ -458,33 +458,33 @@ with the project brief. The 4.1–4.12 labels appear only inside the Step 3 enti
 traceability table; they cannot be checked against an authoritative source. Per audit rules,
 those rows are **NOT VERIFIED — SOURCE DOCUMENT MISSING**, not failed.
 
-What *can* be verified against available sources (Step 2 docs, ADRs, module map, catalog):
+What _can_ be verified against available sources (Step 2 docs, ADRs, module map, catalog):
 
-| Ref | Requirement (as evidenced by available docs) | Related models | Status |
-| --- | -------------------------------------------- | -------------- | ------ |
-| R-01 | Multi-business tenancy, shared schema | `Business`, `Branch`, `Membership`, composite keys throughout | VERIFIED — PASS (design) |
-| R-02 | Multiple branches per business | `Branch @@unique([businessId, code])`, branch-scoped composites | VERIFIED — PASS |
-| R-03 | Memberships, roles, invitations, branch assignment | `Membership`, `Role`, `RolePermission`, `Invitation`, `MembershipBranchAssignment`, `EmployeeBranchAssignment` | VERIFIED — FINDING (F-009, F-010) |
-| R-04 | Subscriptions, trials, plans, verified payments | `Plan*`, `Subscription*`, `PaymentAttempt`, `PaymentWebhookEvent`, `TrialGrant`, `UsageCounter`, `PaymentReconciliationTask` | VERIFIED — PASS (design) |
-| R-05 | Business-type configuration, settings, attributes, units | `BusinessConfiguration`, `BusinessSetting`, `BranchSetting`, `AttributeDefinition`, `Unit`, `UnitConversion`, `CapabilityFlag` | VERIFIED — PASS |
-| R-06 | Product catalog, variants, barcodes, media, imports | `Product`, `ProductVariant`, `Barcode`, `ProductMedia`, `ProductImportJob`, `Brand`, `Category` | VERIFIED — PASS |
-| R-07 | Pricing, overrides, discounts, price history | `PriceList`, `ProductPrice`, `BranchPriceOverride`, `PriceChangeHistory`, `Discount` | VERIFIED — PASS |
-| R-08 | Files and documents | `FileObject`, `FileLink`, `FileUploadSession` + composite file refs in consumers | VERIFIED — FINDING (F-004) |
-| R-09 | Inventory: balances, movements, batches, stocktakes, adjustments, transfers, reservations, valuation, loss | All inventory models (§8) | VERIFIED — FINDING (F-003, F-005, F-007) |
-| R-10 | Suppliers and procurement: agreements, RFQ, quotations, PO, revisions, approvals, receiving, invoices, payments, allocations | All suppliers/procurement models | VERIFIED — FINDING (F-005) |
-| R-11 | POS, sales, payments, shifts, receipts, receipt blocks | `PosTerminal`, `CashierShift`, `ShiftCashMovement`, `Sale*`, `Receipt*`, `SaleVoid` | VERIFIED — FINDING (F-007) |
-| R-12 | Customers, consents, merges, summaries | `Customer*` | VERIFIED — PASS |
-| R-13 | Returns, inspections, refunds, exchanges, follow-ups | `Return*`, `Refund*`, `Exchange*`, `CollectionFollowUp` | VERIFIED — PASS (design) |
-| R-14 | Offline sync, devices, sessions, operations, cursors, feeds | `Device`, `Sync*`, `FeedEvent`, `SyncCursor` | VERIFIED — FINDING (F-014, F-003-adjacent) |
-| R-15 | D-025 strict stock protection + reconciliation | `ReconciliationException`, `ReconciliationShortfallLine`, `ReconciliationEvent`, `ConflictRecord` | VERIFIED — FINDING (F-001 report contradiction; schema itself PASS) |
-| R-16 | Analytics facts and reporting | `*DailyFact`, `StockoutEvent`, `ExpiryRiskFact`, `SupplierPerformanceFact`, `ReportDefinition`, `ExportJob` | VERIFIED — PASS (design) |
-| R-17 | AI/forecasting advisory only | `ForecastModel`, `ForecastRun`, `ForecastPoint`, `Recommendation`, `FeatureSnapshot`, `ModelMetric` — no write path to stock/money | VERIFIED — PASS |
-| R-18 | Notifications and delivery | `Notification*` | VERIFIED — PASS |
-| R-19 | Audit trail | `AuditEvent` (append-only by policy, Restrict) | VERIFIED — PASS |
-| R-20 | Platform administration / support access | `PlatformSetting`, `SupportCase`, `SupportAccessGrant` | VERIFIED — PASS (design) |
-| R-21 | Outbox/idempotency infrastructure | `OutboxEvent`, `IdempotencyRecord` | VERIFIED — FINDING (F-004 nullable tenant) |
-| R-22 | Four business types on one schema | §12 | VERIFIED — PASS (representation) |
-| R-23 | Requirements 4.1–4.12 authoritative text | — | **NOT VERIFIED — SOURCE DOCUMENT MISSING** |
+| Ref  | Requirement (as evidenced by available docs)                                                                                 | Related models                                                                                                                     | Status                                                              |
+| ---- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| R-01 | Multi-business tenancy, shared schema                                                                                        | `Business`, `Branch`, `Membership`, composite keys throughout                                                                      | VERIFIED — PASS (design)                                            |
+| R-02 | Multiple branches per business                                                                                               | `Branch @@unique([businessId, code])`, branch-scoped composites                                                                    | VERIFIED — PASS                                                     |
+| R-03 | Memberships, roles, invitations, branch assignment                                                                           | `Membership`, `Role`, `RolePermission`, `Invitation`, `MembershipBranchAssignment`, `EmployeeBranchAssignment`                     | VERIFIED — FINDING (F-009, F-010)                                   |
+| R-04 | Subscriptions, trials, plans, verified payments                                                                              | `Plan*`, `Subscription*`, `PaymentAttempt`, `PaymentWebhookEvent`, `TrialGrant`, `UsageCounter`, `PaymentReconciliationTask`       | VERIFIED — PASS (design)                                            |
+| R-05 | Business-type configuration, settings, attributes, units                                                                     | `BusinessConfiguration`, `BusinessSetting`, `BranchSetting`, `AttributeDefinition`, `Unit`, `UnitConversion`, `CapabilityFlag`     | VERIFIED — PASS                                                     |
+| R-06 | Product catalog, variants, barcodes, media, imports                                                                          | `Product`, `ProductVariant`, `Barcode`, `ProductMedia`, `ProductImportJob`, `Brand`, `Category`                                    | VERIFIED — PASS                                                     |
+| R-07 | Pricing, overrides, discounts, price history                                                                                 | `PriceList`, `ProductPrice`, `BranchPriceOverride`, `PriceChangeHistory`, `Discount`                                               | VERIFIED — PASS                                                     |
+| R-08 | Files and documents                                                                                                          | `FileObject`, `FileLink`, `FileUploadSession` + composite file refs in consumers                                                   | VERIFIED — FINDING (F-004)                                          |
+| R-09 | Inventory: balances, movements, batches, stocktakes, adjustments, transfers, reservations, valuation, loss                   | All inventory models (§8)                                                                                                          | VERIFIED — FINDING (F-003, F-005, F-007)                            |
+| R-10 | Suppliers and procurement: agreements, RFQ, quotations, PO, revisions, approvals, receiving, invoices, payments, allocations | All suppliers/procurement models                                                                                                   | VERIFIED — FINDING (F-005)                                          |
+| R-11 | POS, sales, payments, shifts, receipts, receipt blocks                                                                       | `PosTerminal`, `CashierShift`, `ShiftCashMovement`, `Sale*`, `Receipt*`, `SaleVoid`                                                | VERIFIED — FINDING (F-007)                                          |
+| R-12 | Customers, consents, merges, summaries                                                                                       | `Customer*`                                                                                                                        | VERIFIED — PASS                                                     |
+| R-13 | Returns, inspections, refunds, exchanges, follow-ups                                                                         | `Return*`, `Refund*`, `Exchange*`, `CollectionFollowUp`                                                                            | VERIFIED — PASS (design)                                            |
+| R-14 | Offline sync, devices, sessions, operations, cursors, feeds                                                                  | `Device`, `Sync*`, `FeedEvent`, `SyncCursor`                                                                                       | VERIFIED — FINDING (F-014, F-003-adjacent)                          |
+| R-15 | D-025 strict stock protection + reconciliation                                                                               | `ReconciliationException`, `ReconciliationShortfallLine`, `ReconciliationEvent`, `ConflictRecord`                                  | VERIFIED — FINDING (F-001 report contradiction; schema itself PASS) |
+| R-16 | Analytics facts and reporting                                                                                                | `*DailyFact`, `StockoutEvent`, `ExpiryRiskFact`, `SupplierPerformanceFact`, `ReportDefinition`, `ExportJob`                        | VERIFIED — PASS (design)                                            |
+| R-17 | AI/forecasting advisory only                                                                                                 | `ForecastModel`, `ForecastRun`, `ForecastPoint`, `Recommendation`, `FeatureSnapshot`, `ModelMetric` — no write path to stock/money | VERIFIED — PASS                                                     |
+| R-18 | Notifications and delivery                                                                                                   | `Notification*`                                                                                                                    | VERIFIED — PASS                                                     |
+| R-19 | Audit trail                                                                                                                  | `AuditEvent` (append-only by policy, Restrict)                                                                                     | VERIFIED — PASS                                                     |
+| R-20 | Platform administration / support access                                                                                     | `PlatformSetting`, `SupportCase`, `SupportAccessGrant`                                                                             | VERIFIED — PASS (design)                                            |
+| R-21 | Outbox/idempotency infrastructure                                                                                            | `OutboxEvent`, `IdempotencyRecord`                                                                                                 | VERIFIED — FINDING (F-004 nullable tenant)                          |
+| R-22 | Four business types on one schema                                                                                            | §12                                                                                                                                | VERIFIED — PASS (representation)                                    |
+| R-23 | Requirements 4.1–4.12 authoritative text                                                                                     | —                                                                                                                                  | **NOT VERIFIED — SOURCE DOCUMENT MISSING**                          |
 
 **Counts (recounted from the displayed matrix):** 23 rows assessed (R-01…R-23) →
 **22 VERIFIED** = 14 `VERIFIED — PASS` + 8 `VERIFIED — FINDING`; **1 NOT VERIFIED — SOURCE
@@ -504,8 +504,8 @@ no row was excluded — every displayed row is counted exactly once.
   inventory/suppliers/procurement = 49; M4: customers/synchronization/sales/after-sales/
   analytics/intelligence/notifications = 54; total 159 — verified against the schema).
 
-**Statement (required):** *Four-member contribution and independent review are NOT VERIFIED by
-the available Git evidence.* This does not prove the other members did not contribute; it proves
+**Statement (required):** _Four-member contribution and independent review are NOT VERIFIED by
+the available Git evidence._ This does not prove the other members did not contribute; it proves
 only that the repository contains no attributable evidence of it. Recommend: genuine per-member
 commits, recorded review approvals per module, and commit/PR evidence before the ownership claim
 is treated as demonstrated rather than assigned.
@@ -516,25 +516,25 @@ is treated as demonstrated rather than assigned.
 
 Severity scale: Critical / High / Medium / Low / Informational.
 
-| ID | Title | Severity | Class | Affected | Blocks migration? |
-| -- | ----- | -------- | ----- | -------- | ----------------- |
-| F-001 | Completion report contradicts approved D-025 (partial fulfilment left open) | **High** | Documentation defect | `STEP_3_DATABASE_DESIGN_AND_SCHEMA_COMPLETION_REPORT.md` §H.2, §K.1 | No — must be corrected before approval is clean; does not affect schema |
-| F-002 | Stale verification statistics in two documents | Medium | Documentation defect | `DATABASE_VALIDATION_AND_TESTING.md` §2; `PRISMA_SCHEMA_GUIDE.md` §2 (counts table, §4 decimals, §7 idempotency keys); also `LOGICAL_DATABASE_DESIGN.md` §2.4 | No |
-| F-003 | Nullable columns inside `@@unique` permit duplicate rows (PostgreSQL NULLs distinct) | Medium | Schema design concern | `StocktakeLine`, `ProductAttributeValue`, `IdempotencyRecord`, `PaymentAttempt`, `Notification`, `Sale`, `SyncOperation`, `ReconciliationException`, `StockLossRecord`, `Customer` (see §13) | No — fix via companion SQL (partial uniques / `NULLS NOT DISTINCT`) in baseline or follow-up migration |
-| F-004 | Five nullable-`businessId` models undocumented as tenant exceptions | Medium | Documentation defect + minor design gap | `FileUploadSession`, `OutboxEvent`, `IdempotencyRecord`, `AuditEvent`, `SupportCase` vs `MULTI_TENANT_DATABASE_DESIGN.md` §2 "five tables" claim | No |
-| F-005 | Missing line-level uniqueness on `GoodsReceiptLine`/`SupplierInvoiceLine` (and weaker cases on request/RFQ/quotation/exchange lines) | Medium | Schema design concern | `GoodsReceiptLine`, `SupplierInvoiceLine`, `PurchaseRequestLine`/`RfqLine`/`QuotationLine`/`ExchangeLine` (weaker) | No |
-| F-006 | ERD field-block errors | Low | Documentation defect | `ENTITY_RELATIONSHIP_DIAGRAM.md` §2 (`PriceList.code`→`name`), §4 (`SupplierConfirmation.status`, `quantityDamaged`→`damagedQuantity`, valuation `quantity`/`totalValue`) | No |
-| F-007 | Intra-tenant branch consistency not DB-enforced (sale↔shift↔terminal↔branch; return/refund/exchange branch vs sale branch; self-transfer; GR branch vs PO branch) | Low | Design concern | `Sale`, `CashierShift`, `PosTerminal`, `ReturnRequest`, `Refund`, `Exchange`, `StockTransfer`, `GoodsReceipt` | No — accept as service-enforced or document intent |
-| F-008 | No verifiable four-member contribution/review evidence | Medium | Evidence gap / governance | Git history, absence of review reports | No for migration; yes for governance claims |
-| F-009 | `Membership` dual role relations; `roleBusinessId` not bound to `membership.businessId`; plain `role` FK can reference another tenant's role | Low | Schema design concern (documented exception) | `Membership`, `Invitation`, `Role` | No — documented TEN-16; recommend clarifying authoritative relation |
-| F-010 | `MembershipBranchAssignment @@unique([membershipId, branchId])` blocks re-assignment after `revokedAt` | Medium | Schema design concern | `MembershipBranchAssignment` | No — confirm intended semantics or add partial unique |
-| F-011 | 44 plain `*UserId` actor scalars without FK to `User` | Low | Design concern | e.g., `AuditEvent.actorUserId`, `StocktakeSession.*ByUserId`, `PurchaseOrder.*ByUserId`, `Refund.approvedByUserId`, etc. (full list in audit working notes) | No — audit-actor references; consider documenting convention or FK where appropriate |
-| F-012 | Tenant-derived child tables without `businessId` (`EmploymentStatusHistory`, `SyncAttempt`, `SyncCursor`, `ForecastPoint`) labeled "Platform" scope | Low | Design concern / doc classification | Those 4 models | No — tenant filtering requires parent join; document query rule |
-| F-013 | `BusinessConfiguration.businessType` duplicates `Business.type` | Low | Design concern | `BusinessConfiguration`, `Business` | No — drift risk; pick one source of truth |
-| F-014 | Indexing doc constraint descriptions stale | Low | Documentation defect | `DATABASE_INDEXING_AND_PERFORMANCE.md` §2.2/2.3/2.5/2.6/2.7 | No |
-| F-015 | Offline doc Mermaid `correctiveAdjustmentId` vs actual `correctiveStocktakeId` linkage; idempotency keys omit `businessId` | Low | Documentation defect | `OFFLINE_AND_RECONCILIATION_DATA_MODEL.md` §2, §6 | No |
-| F-016 | Approved requirements source (4.1–4.12) absent; traceability partially unverifiable | Medium | Verification gap | `docs/requirements/master-requirements.md` disclosure; entity catalog labels | No — limitation, not defect |
-| F-017 | `SupplierInvoiceLine` can reference a PO line inconsistent with invoice header (different variant/PO within same business) | Medium | Schema design concern | `SupplierInvoiceLine.purchaseOrderLine` (no variantId in composite; `purchaseOrderId` on line independent of `SupplierInvoice.purchaseOrderId`) | No — tighten composite or app rule |
+| ID    | Title                                                                                                                                                             | Severity | Class                                        | Affected                                                                                                                                                                                     | Blocks migration?                                                                                      |
+| ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | -------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| F-001 | Completion report contradicts approved D-025 (partial fulfilment left open)                                                                                       | **High** | Documentation defect                         | `STEP_3_DATABASE_DESIGN_AND_SCHEMA_COMPLETION_REPORT.md` §H.2, §K.1                                                                                                                          | No — must be corrected before approval is clean; does not affect schema                                |
+| F-002 | Stale verification statistics in two documents                                                                                                                    | Medium   | Documentation defect                         | `DATABASE_VALIDATION_AND_TESTING.md` §2; `PRISMA_SCHEMA_GUIDE.md` §2 (counts table, §4 decimals, §7 idempotency keys); also `LOGICAL_DATABASE_DESIGN.md` §2.4                                | No                                                                                                     |
+| F-003 | Nullable columns inside `@@unique` permit duplicate rows (PostgreSQL NULLs distinct)                                                                              | Medium   | Schema design concern                        | `StocktakeLine`, `ProductAttributeValue`, `IdempotencyRecord`, `PaymentAttempt`, `Notification`, `Sale`, `SyncOperation`, `ReconciliationException`, `StockLossRecord`, `Customer` (see §13) | No — fix via companion SQL (partial uniques / `NULLS NOT DISTINCT`) in baseline or follow-up migration |
+| F-004 | Five nullable-`businessId` models undocumented as tenant exceptions                                                                                               | Medium   | Documentation defect + minor design gap      | `FileUploadSession`, `OutboxEvent`, `IdempotencyRecord`, `AuditEvent`, `SupportCase` vs `MULTI_TENANT_DATABASE_DESIGN.md` §2 "five tables" claim                                             | No                                                                                                     |
+| F-005 | Missing line-level uniqueness on `GoodsReceiptLine`/`SupplierInvoiceLine` (and weaker cases on request/RFQ/quotation/exchange lines)                              | Medium   | Schema design concern                        | `GoodsReceiptLine`, `SupplierInvoiceLine`, `PurchaseRequestLine`/`RfqLine`/`QuotationLine`/`ExchangeLine` (weaker)                                                                           | No                                                                                                     |
+| F-006 | ERD field-block errors                                                                                                                                            | Low      | Documentation defect                         | `ENTITY_RELATIONSHIP_DIAGRAM.md` §2 (`PriceList.code`→`name`), §4 (`SupplierConfirmation.status`, `quantityDamaged`→`damagedQuantity`, valuation `quantity`/`totalValue`)                    | No                                                                                                     |
+| F-007 | Intra-tenant branch consistency not DB-enforced (sale↔shift↔terminal↔branch; return/refund/exchange branch vs sale branch; self-transfer; GR branch vs PO branch) | Low      | Design concern                               | `Sale`, `CashierShift`, `PosTerminal`, `ReturnRequest`, `Refund`, `Exchange`, `StockTransfer`, `GoodsReceipt`                                                                                | No — accept as service-enforced or document intent                                                     |
+| F-008 | No verifiable four-member contribution/review evidence                                                                                                            | Medium   | Evidence gap / governance                    | Git history, absence of review reports                                                                                                                                                       | No for migration; yes for governance claims                                                            |
+| F-009 | `Membership` dual role relations; `roleBusinessId` not bound to `membership.businessId`; plain `role` FK can reference another tenant's role                      | Low      | Schema design concern (documented exception) | `Membership`, `Invitation`, `Role`                                                                                                                                                           | No — documented TEN-16; recommend clarifying authoritative relation                                    |
+| F-010 | `MembershipBranchAssignment @@unique([membershipId, branchId])` blocks re-assignment after `revokedAt`                                                            | Medium   | Schema design concern                        | `MembershipBranchAssignment`                                                                                                                                                                 | No — confirm intended semantics or add partial unique                                                  |
+| F-011 | 44 plain `*UserId` actor scalars without FK to `User`                                                                                                             | Low      | Design concern                               | e.g., `AuditEvent.actorUserId`, `StocktakeSession.*ByUserId`, `PurchaseOrder.*ByUserId`, `Refund.approvedByUserId`, etc. (full list in audit working notes)                                  | No — audit-actor references; consider documenting convention or FK where appropriate                   |
+| F-012 | Tenant-derived child tables without `businessId` (`EmploymentStatusHistory`, `SyncAttempt`, `SyncCursor`, `ForecastPoint`) labeled "Platform" scope               | Low      | Design concern / doc classification          | Those 4 models                                                                                                                                                                               | No — tenant filtering requires parent join; document query rule                                        |
+| F-013 | `BusinessConfiguration.businessType` duplicates `Business.type`                                                                                                   | Low      | Design concern                               | `BusinessConfiguration`, `Business`                                                                                                                                                          | No — drift risk; pick one source of truth                                                              |
+| F-014 | Indexing doc constraint descriptions stale                                                                                                                        | Low      | Documentation defect                         | `DATABASE_INDEXING_AND_PERFORMANCE.md` §2.2/2.3/2.5/2.6/2.7                                                                                                                                  | No                                                                                                     |
+| F-015 | Offline doc Mermaid `correctiveAdjustmentId` vs actual `correctiveStocktakeId` linkage; idempotency keys omit `businessId`                                        | Low      | Documentation defect                         | `OFFLINE_AND_RECONCILIATION_DATA_MODEL.md` §2, §6                                                                                                                                            | No                                                                                                     |
+| F-016 | Approved requirements source (4.1–4.12) absent; traceability partially unverifiable                                                                               | Medium   | Verification gap                             | `docs/requirements/master-requirements.md` disclosure; entity catalog labels                                                                                                                 | No — limitation, not defect                                                                            |
+| F-017 | `SupplierInvoiceLine` can reference a PO line inconsistent with invoice header (different variant/PO within same business)                                        | Medium   | Schema design concern                        | `SupplierInvoiceLine.purchaseOrderLine` (no variantId in composite; `purchaseOrderId` on line independent of `SupplierInvoice.purchaseOrderId`)                                              | No — tighten composite or app rule                                                                     |
 
 **Totals:** Critical 0 · High 1 (F-001) · Medium 8 (F-002, F-003, F-004, F-005, F-008, F-010,
 F-016, F-017) · Low 8 (F-006, F-007, F-009, F-011, F-012, F-013, F-014, F-015). Informational
@@ -547,11 +547,11 @@ already in the Prisma schema), **planned SQL** (specified in
 `DATABASE_MIGRATION_AND_SEED_STRATEGY.md` but not yet applied), **app-enforced** (service-layer
 rule, Step 4+), or **unverified** (no runtime evidence exists).
 
-| Finding | Rule that must hold | DB-enforced today | Planned migration SQL | App-enforced (required) | Unverified runtime |
-| ------- | ------------------- | ----------------- | --------------------- | ----------------------- | ------------------ |
-| F-003 (nullable `@@unique` members) | One `StocktakeLine` per `(sessionId, variantId)` when `batchId IS NULL`; one `ProductAttributeValue` per definition per product/variant with exactly one of product/variant set; one `IdempotencyRecord` per `(businessId, scope, key)` incl. platform scope | **No** — NULLs distinct permits duplicates | Partial uniques / `NULLS NOT DISTINCT` candidates (see C-3) | Application must also treat NULL-keyed rows correctly in upsert logic | **Yes** — no database exists; duplicate acceptance untested |
-| F-005 (missing line uniques) | One `GoodsReceiptLine` per `(receiptId, purchaseOrderLineId)`; one `SupplierInvoiceLine` per `(supplierInvoiceId, purchaseOrderLineId)` unless split lines are an approved business rule | **No** | Not currently in companion SQL — must be added if DB treatment chosen | Three-way-match quantity accumulation must be computed inside the receipt/invoice commit transaction with row locks | **Yes** |
-| F-017 (invoice-line PO binding) | `SupplierInvoiceLine.purchaseOrderLine` must reference a PO line of the same variant (and same supplier/PO as the invoice header) | **No** — composite lacks `variantId`/`supplierId` | Could be enforced by widening the composite FK to include `variantId` (and supplier via PO) in a schema revision | Invoice commit must validate header↔line PO consistency transactionally | **Yes** |
+| Finding                             | Rule that must hold                                                                                                                                                                                                                                          | DB-enforced today                                 | Planned migration SQL                                                                                            | App-enforced (required)                                                                                             | Unverified runtime                                          |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| F-003 (nullable `@@unique` members) | One `StocktakeLine` per `(sessionId, variantId)` when `batchId IS NULL`; one `ProductAttributeValue` per definition per product/variant with exactly one of product/variant set; one `IdempotencyRecord` per `(businessId, scope, key)` incl. platform scope | **No** — NULLs distinct permits duplicates        | Partial uniques / `NULLS NOT DISTINCT` candidates (see C-3)                                                      | Application must also treat NULL-keyed rows correctly in upsert logic                                               | **Yes** — no database exists; duplicate acceptance untested |
+| F-005 (missing line uniques)        | One `GoodsReceiptLine` per `(receiptId, purchaseOrderLineId)`; one `SupplierInvoiceLine` per `(supplierInvoiceId, purchaseOrderLineId)` unless split lines are an approved business rule                                                                     | **No**                                            | Not currently in companion SQL — must be added if DB treatment chosen                                            | Three-way-match quantity accumulation must be computed inside the receipt/invoice commit transaction with row locks | **Yes**                                                     |
+| F-017 (invoice-line PO binding)     | `SupplierInvoiceLine.purchaseOrderLine` must reference a PO line of the same variant (and same supplier/PO as the invoice header)                                                                                                                            | **No** — composite lacks `variantId`/`supplierId` | Could be enforced by widening the composite FK to include `variantId` (and supplier via PO) in a schema revision | Invoice commit must validate header↔line PO consistency transactionally                                             | **Yes**                                                     |
 
 **Important:** "app-enforced" is **not** automatically safe. For F-005/F-017 the service must
 (a) perform validation and quantity accumulation inside a single transaction, (b) take
@@ -574,35 +574,35 @@ specified but unapplied — that is the expected Step 3 end-state, not a blocker
 
 1. **C-1 (F-001):** Correct `STEP_3_DATABASE_DESIGN_AND_SCHEMA_COMPLETION_REPORT.md` §H.2/§K.1 to
    state strict D-025 rejection with no partial fulfilment, matching the approved decision.
-   *Owner: Step 3 author / project owner.*
+   _Owner: Step 3 author / project owner._
 2. **C-2 (F-002, F-014, F-015, F-006):** Refresh stale counts and constraint descriptions in
    `DATABASE_VALIDATION_AND_TESTING.md`, `PRISMA_SCHEMA_GUIDE.md`, `LOGICAL_DATABASE_DESIGN.md`,
    `DATABASE_INDEXING_AND_PERFORMANCE.md`, `OFFLINE_AND_RECONCILIATION_DATA_MODEL.md` and the
-   ERD field blocks. *Owner: documentation owner.*
+   ERD field blocks. _Owner: documentation owner._
 3. **C-3 (F-003, F-005, F-017):** Decide and record treatment for the NULL-uniqueness loopholes
    and missing line uniques — recommended: extend the baseline companion SQL with partial unique
    indexes (or `NULLS NOT DISTINCT` where appropriate) covering `StocktakeLine(sessionId,
-   variantId) WHERE batchId IS NULL`, `ProductAttributeValue`, `IdempotencyRecord`, and
+variantId) WHERE batchId IS NULL`, `ProductAttributeValue`, `IdempotencyRecord`, and
    `(receiptId, purchaseOrderLineId)` / `(supplierInvoiceId, purchaseOrderLineId)` uniqueness —
-   or explicitly accept app-level enforcement. *Owner: M1/M3 schema owners + project owner.*
+   or explicitly accept app-level enforcement. _Owner: M1/M3 schema owners + project owner._
 4. **C-4 (F-004, F-012):** Document the remaining nullable-`businessId` and no-`businessId`
    tenant-derived tables in the tenancy doc's exception list, with the query rule (join through
-   parent). *Owner: M1.*
+   parent). _Owner: M1._
 5. **C-5 (F-007, F-009, F-010, F-011, F-013):** Record explicit acceptance (or intended fix) for
    intra-tenant branch consistency, membership role binding, branch-assignment re-assignment
-   semantics, actor-UUID convention and `businessType` duplication. *Owner: project owner +
-   affected module owners.*
+   semantics, actor-UUID convention and `businessType` duplication. _Owner: project owner +
+   affected module owners._
 6. **C-6a (F-008) — team-contribution evidence:** Before **claiming** four-member delivery or
    independent review, produce attributable member commits and recorded per-module review
    approvals. This is **not** a prerequisite for migration preparation; it gates the governance
-   claim only. *Owner: project owner / team lead.*
+   claim only. _Owner: project owner / team lead._
 7. **C-6b (F-016) — requirements source:** Before **final requirements-compliance approval**
    (and before closing Step 3 sign-off against requirements 4.1–4.12), obtain or commit the
    approved master-requirements / role-boundary / business-type / decision documents and
    complete the traceability matrix. This is **not** a prerequisite for preparing or applying
    the baseline migration to a development database, because the schema was built against the
-   available Step 2 authorities; it is required before compliance can be declared. *Owner:
-   project owner.*
+   available Step 2 authorities; it is required before compliance can be declared. _Owner:
+   project owner._
 
 ### Recommendations (non-blocking)
 

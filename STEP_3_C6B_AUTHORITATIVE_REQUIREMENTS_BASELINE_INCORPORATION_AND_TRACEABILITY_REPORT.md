@@ -125,16 +125,16 @@ promoted to baseline requirements.
 
 ## 10. Files modified and reasons
 
-| File | Reason |
-| ---- | ------ |
+| File                                                                     | Reason                                                                                    |
+| ------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
 | `docs/requirements/MASTER_PROJECT_REQUIREMENTS_AND_DECISION_DOCUMENT.md` | **Created** — canonical authoritative baseline (verbatim source + separated control note) |
-| `docs/requirements/master-requirements.md` | Authority banner + demotion to legacy reference; content preserved |
-| `docs/requirements/REQUIREMENTS_TRACEABILITY_MATRIX.md` | **Created** — TR-01–TR-38 reconciliation matrix |
-| `docs/database/DATABASE_REQUIREMENTS_AND_ENTITY_CATALOG.md` | Obsolete 4.x references → real MRDD sections; authority preamble |
-| `docs/architecture/SYSTEM_ARCHITECTURE.md` | Source-of-truth pointer → MRDD |
-| `docs/product/scope-and-phases.md` | Approved-baseline reference → MRDD §23 |
-| `README.md` | Requirements link → MRDD |
-| `PROJECT_STRUCTURE.md` | Directory listing updated |
+| `docs/requirements/master-requirements.md`                               | Authority banner + demotion to legacy reference; content preserved                        |
+| `docs/requirements/REQUIREMENTS_TRACEABILITY_MATRIX.md`                  | **Created** — TR-01–TR-38 reconciliation matrix                                           |
+| `docs/database/DATABASE_REQUIREMENTS_AND_ENTITY_CATALOG.md`              | Obsolete 4.x references → real MRDD sections; authority preamble                          |
+| `docs/architecture/SYSTEM_ARCHITECTURE.md`                               | Source-of-truth pointer → MRDD                                                            |
+| `docs/product/scope-and-phases.md`                                       | Approved-baseline reference → MRDD §23                                                    |
+| `README.md`                                                              | Requirements link → MRDD                                                                  |
+| `PROJECT_STRUCTURE.md`                                                   | Directory listing updated                                                                 |
 
 ## 11. Files deliberately not modified
 

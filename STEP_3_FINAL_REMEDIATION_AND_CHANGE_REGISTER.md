@@ -13,24 +13,24 @@ All findings from previous audits (F-001 through F-017) were rechecked and found
 
 ### 1.1 Complete findings summary
 
-| ID | Severity | Finding | Status | Action required |
-| --- | --- | --- | --- | --- |
-| F-001 | High | D-025 contradiction in completion report §H.2/K.1 | **RESOLVED** (previous correction) | None — verified corrected |
-| F-002 | Medium | Stale documentation statistics | **RESOLVED** (previous correction) | None — independently verified |
-| F-003 | Medium | Nullable fields in unique constraints (StocktakeLine, IdempotencyRecord, ProductAttributeValue) | **PARTIALLY RESOLVED** | Companion SQL specified; runtime verification pending migration |
-| F-004 | Medium | Nullable businessId exceptions undocumented | **RESOLVED** (previous correction) | None — all 10 documented |
-| F-005 | Medium | Missing receipt/invoice line uniqueness | **PARTIALLY RESOLVED** | Companion SQL specified; runtime verification pending migration |
-| F-006 | Low | ERD field-name inaccuracies | **RESOLVED** (previous correction) | None |
-| F-007 | Medium | Intra-tenant branch consistency gaps | **PARTIALLY RESOLVED** | U-1 enforced in schema; remaining gaps are service-layer (Step 4) |
-| F-008 | Medium | No four-member contribution evidence | **OPEN** (governance) | Not a database design defect — governance gate C-6a |
-| F-009 | Medium | Membership dual role relations ambiguity | **PARTIALLY RESOLVED** | Service contract documented; implementation is Step 4 |
-| F-010 | Medium | Branch-assignment reassignment blocked | **PARTIALLY RESOLVED** | Partial unique index specified; runtime pending migration |
-| F-011 | Low | ~44 actor UUIDs without User FK | **ACCEPTED** | Documented intentional design convention |
-| F-012 | Low | Tenant-derived children undocumented | **RESOLVED** (previous correction) | None |
-| F-013 | Low | businessType duplication | **PARTIALLY RESOLVED** | Service sync rule documented; implementation is Step 4 |
-| F-014/F-015 | Low | Index/ERD/documentation drift | **RESOLVED** (previous correction) | None |
-| F-016 | High | Authoritative requirements source absent | **RESOLVED** | MRDD v1.0 present in repository |
-| F-017 | Medium | Invoice-line/PO-line consistency | **PARTIALLY RESOLVED** | Composite FK widened + CHECK specified; runtime pending migration |
+| ID          | Severity | Finding                                                                                         | Status                             | Action required                                                   |
+| ----------- | -------- | ----------------------------------------------------------------------------------------------- | ---------------------------------- | ----------------------------------------------------------------- |
+| F-001       | High     | D-025 contradiction in completion report §H.2/K.1                                               | **RESOLVED** (previous correction) | None — verified corrected                                         |
+| F-002       | Medium   | Stale documentation statistics                                                                  | **RESOLVED** (previous correction) | None — independently verified                                     |
+| F-003       | Medium   | Nullable fields in unique constraints (StocktakeLine, IdempotencyRecord, ProductAttributeValue) | **PARTIALLY RESOLVED**             | Companion SQL specified; runtime verification pending migration   |
+| F-004       | Medium   | Nullable businessId exceptions undocumented                                                     | **RESOLVED** (previous correction) | None — all 10 documented                                          |
+| F-005       | Medium   | Missing receipt/invoice line uniqueness                                                         | **PARTIALLY RESOLVED**             | Companion SQL specified; runtime verification pending migration   |
+| F-006       | Low      | ERD field-name inaccuracies                                                                     | **RESOLVED** (previous correction) | None                                                              |
+| F-007       | Medium   | Intra-tenant branch consistency gaps                                                            | **PARTIALLY RESOLVED**             | U-1 enforced in schema; remaining gaps are service-layer (Step 4) |
+| F-008       | Medium   | No four-member contribution evidence                                                            | **OPEN** (governance)              | Not a database design defect — governance gate C-6a               |
+| F-009       | Medium   | Membership dual role relations ambiguity                                                        | **PARTIALLY RESOLVED**             | Service contract documented; implementation is Step 4             |
+| F-010       | Medium   | Branch-assignment reassignment blocked                                                          | **PARTIALLY RESOLVED**             | Partial unique index specified; runtime pending migration         |
+| F-011       | Low      | ~44 actor UUIDs without User FK                                                                 | **ACCEPTED**                       | Documented intentional design convention                          |
+| F-012       | Low      | Tenant-derived children undocumented                                                            | **RESOLVED** (previous correction) | None                                                              |
+| F-013       | Low      | businessType duplication                                                                        | **PARTIALLY RESOLVED**             | Service sync rule documented; implementation is Step 4            |
+| F-014/F-015 | Low      | Index/ERD/documentation drift                                                                   | **RESOLVED** (previous correction) | None                                                              |
+| F-016       | High     | Authoritative requirements source absent                                                        | **RESOLVED**                       | MRDD v1.0 present in repository                                   |
+| F-017       | Medium   | Invoice-line/PO-line consistency                                                                | **PARTIALLY RESOLVED**             | Composite FK widened + CHECK specified; runtime pending migration |
 
 ### 1.2 Classification
 
