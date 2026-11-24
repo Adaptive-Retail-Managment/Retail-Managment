@@ -36,6 +36,8 @@ Proposed vertical slices, each end-to-end and independently reviewable:
 8. Returns, refunds and exchanges.
 9. Reporting, then advisory intelligence, then offline synchronization.
 
-The phases above are sequencing proposals, not approved requirements. The approved product
-requirements were not present in the repository at foundation time — see
+The phases above are sequencing proposals, not approved requirements. The authoritative approved
+requirements baseline is the owner-confirmed
+[`../requirements/MASTER_PROJECT_REQUIREMENTS_AND_DECISION_DOCUMENT.md`](../requirements/MASTER_PROJECT_REQUIREMENTS_AND_DECISION_DOCUMENT.md)
+(MRDD v1.0, §23 delivery strategy); legacy binding constraints are in
 [`../requirements/master-requirements.md`](../requirements/master-requirements.md).

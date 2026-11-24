@@ -1,7 +1,8 @@
 # Database assets
 
 Prisma schema and migrations live in [`apps/api/prisma`](../apps/api/prisma) because Prisma
-resolves its CLI and client relative to the schema directory (decision D-015).
+resolves its CLI and client relative to the schema directory
+([decision D-015](../docs/architecture/ARCHITECTURE_DECISION_RECORDS.md), in the decision records).
 
 This folder is reserved for artifacts that are not part of the API package:
 

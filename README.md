@@ -4,9 +4,11 @@ One modular-monolith platform for four business types — **grocery & food**,
 **fashion & clothing**, **pharmacy & medicine** and **cosmetics & beauty** — delivered as a
 single backend, a shared React web app and an Electron desktop shell.
 
-> **Current stage: foundation only.** There is no domain schema, no authentication and no
-> inventory/sales/procurement behaviour yet. Business types are not implemented; they will be
-> configurations of the shared core, never separate applications. See
+> **Current stage: architecture baseline (Step 2).** The code is still the Phase 0 foundation:
+> there is no domain schema, no authentication and no inventory/sales/procurement behaviour.
+> The target architecture is documented in [`docs/architecture/SYSTEM_ARCHITECTURE.md`](docs/architecture/SYSTEM_ARCHITECTURE.md);
+> labels there distinguish implemented, partial and planned work. Business types are not
+> implemented; they will be configurations of the shared core, never separate applications. See
 > [`docs/product/scope-and-phases.md`](docs/product/scope-and-phases.md).
 
 ## Stack
@@ -20,8 +22,8 @@ single backend, a shared React web app and an Electron desktop shell.
 | Tests    | Jest (API), Vitest (web/desktop), Supertest (e2e)  |
 | Tooling  | pnpm 11 workspaces, ESLint 9 flat config, Prettier |
 
-Rationale for pinned versions is in
-[`docs/requirements/decision-register.md`](docs/requirements/decision-register.md).
+Rationale for pinned versions and every architecture decision is in
+[`docs/architecture/ARCHITECTURE_DECISION_RECORDS.md`](docs/architecture/ARCHITECTURE_DECISION_RECORDS.md).
 
 ## Prerequisites
 
@@ -89,16 +91,33 @@ intentionally absent. Modules are created when their vertical slice starts, not 
 - Offline POS, local SQLite store, sync engine and idempotency are not implemented.
 - Electron packaging/installers (`electron-builder.yml`) are not configured.
 - No Playwright suite yet.
-- The repository is not initialised as a git repository in this workspace; CI activates once it is.
+- The CI workflow is defined in `.github/workflows/ci.yml`; it has not run on a remote runner in
+  this environment.
+- Integration tests need a running PostgreSQL (`pnpm db:up`); they are blocked where Docker is
+  unavailable.
+- Electron launch is unverified in this environment; the binary download was unavailable.
 
 ## Documentation
 
+Architecture (Step 2):
+
+- [System architecture](docs/architecture/SYSTEM_ARCHITECTURE.md) — overall system, deployment, document index
+- [Backend architecture](docs/architecture/BACKEND_ARCHITECTURE.md) — modules, layers, communication
+- [Module dependency map](docs/architecture/MODULE_DEPENDENCY_MAP.md) — ownership, dependencies, build order
+- [Multi-tenant security architecture](docs/architecture/MULTI_TENANT_SECURITY_ARCHITECTURE.md) — roles, isolation, threat model
+- [Offline synchronization architecture](docs/architecture/OFFLINE_SYNCHRONIZATION_ARCHITECTURE.md)
+- [Architecture decision records](docs/architecture/ARCHITECTURE_DECISION_RECORDS.md)
+- [API architecture](docs/api/API_ARCHITECTURE.md)
+- [Frontend architecture](docs/web/FRONTEND_ARCHITECTURE.md)
+- [Desktop architecture](docs/desktop/DESKTOP_ARCHITECTURE.md)
+- [Integration architecture](docs/integrations/INTEGRATION_ARCHITECTURE.md)
+- [Testing architecture](docs/testing/TESTING_ARCHITECTURE.md)
+- [Team development guidelines](docs/team/TEAM_DEVELOPMENT_GUIDELINES.md)
+
+Product, requirements and operations:
+
 - [Scope and phases](docs/product/scope-and-phases.md)
-- [Decision register](docs/requirements/decision-register.md)
-- [Binding constraints](docs/requirements/master-requirements.md)
-- [Modular monolith](docs/architecture/modular-monolith.md)
-- [Tenant and branch isolation](docs/architecture/tenant-and-branch-isolation.md)
+- [Master Requirements & Decision Document (authoritative baseline)](docs/requirements/MASTER_PROJECT_REQUIREMENTS_AND_DECISION_DOCUMENT.md)
+- [Legacy binding constraints](docs/requirements/master-requirements.md)
 - [Local development](docs/operations/local-development.md)
 - [Environment configuration](docs/operations/environment-configuration.md)
-- [API conventions](docs/api/api-conventions.md)
-- [Test strategy](docs/testing/test-strategy.md)

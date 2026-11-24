@@ -8,7 +8,9 @@
 4. Enforce permissions on the backend. Business Admin is digital-only and gets no physical
    operational permissions.
 5. Stock changes only through explicit workflows that write an audit-trail ledger. Never allow
-   negative stock. A purchase order does not increase stock; accepted receiving does.
+   negative stock, including during offline synchronization: an offline sale that cannot be
+   satisfied is preserved as a reconciliation exception, not committed. A purchase order does not
+   increase stock; accepted receiving does.
 6. Wrap sales, receiving, payments, refunds and other money operations in transactions with
    concurrency control.
 7. Preserve history: archive/deactivate, never delete financial or audit records.

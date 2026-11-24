@@ -596,6 +596,11 @@ database/
 
 
 8. Documentation structure
+
+> The tree below was the original planning target. The delivered Step 2 set consolidates several
+> of these files by concern (see ADR D-030); the canonical, current document map is the index in
+> `docs/architecture/SYSTEM_ARCHITECTURE.md`. Remaining files in this tree are still planned.
+
 docs/
 │
 ├── product/
@@ -605,10 +610,12 @@ docs/
 │   └── acceptance-criteria.md
 │
 ├── requirements/
+│   ├── MASTER_PROJECT_REQUIREMENTS_AND_DECISION_DOCUMENT.md
 │   ├── master-requirements.md
 │   ├── role-boundaries.md
 │   ├── business-type-requirements.md
-│   └── decision-register.md
+│   ├── decision-register.md
+│   └── REQUIREMENTS_TRACEABILITY_MATRIX.md
 │
 ├── architecture/
 │   ├── system-context.md
